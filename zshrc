@@ -57,6 +57,12 @@ function _fastfind() {
 function md() {
     pandoc $1 | lynx -stdin
 }
+function man7() {
+    lynx "https://lite.duckduckgo.com/lite?q=${*// /+}+site:man7.org/linux/man-pages"
+}
+function duckduckgo() {
+    lynx "https://lite.duckduckgo.com/lite?q=${*// /+}"
+}
 # ALIASES
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -84,3 +90,5 @@ alias t3='_tree 3'
 alias t4='_tree 4'
 
 alias ff='_fastfind'
+
+alias '?'='duckduckgo'
