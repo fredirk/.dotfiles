@@ -13,11 +13,14 @@ setopt histignorealldups sharehistory
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_verify
 
 # Use modern completion system
 autoload -Uz compinit
 compinit
-
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
@@ -39,8 +42,11 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 bindkey -v
 export KEYTIMEOUT=1
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
+# plug
+if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
+    . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg-#999'
 fi
 
 # FUNCTIONS
@@ -73,6 +79,16 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    alias diff='diff --color=auto'
+    alias id='ip --color=auto'
+
+    export LESS_TERMCAP_mb=$'\E[1;31m' 
+    export LESS_TERMCAP_md=$'\E[1;36m' 
+    export LESS_TERMCAP_me=$'\E[0m'    
+    export LESS_TERMCAP_so=$'\E[01;33m' 
+    export LESS_TERMCAP_se=$'\E[0m'
+    export LESS_TERMCAP_us=$'\E[1;32m'
+    export LESS_TERMCAP_ue=$'\E[0m'
 fi
 
 alias python='python3'
@@ -92,3 +108,4 @@ alias t4='_tree 4'
 alias ff='_fastfind'
 
 alias '?'='duckduckgo'
+alias 'history'='history 0'
