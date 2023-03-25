@@ -42,11 +42,17 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 bindkey -v
 export KEYTIMEOUT=1
 
+if [ -d "$HOME/Android/Sdk" ]; then
+    export ANDROID_HOME=$HOME/Android/Sdk
+    export PATH=$PATH:$ANDROID_HOME/emulator
+    export PATH=$PATH:$ANDROID_HOME/platform-tools
+fi
+
 # plug
 if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
     . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg-#999'
+    export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
 fi
 
 # FUNCTIONS
