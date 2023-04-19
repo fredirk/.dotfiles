@@ -47,12 +47,32 @@ if [ -d "$HOME/Android/Sdk" ]; then
     export PATH=$PATH:$ANDROID_HOME/emulator
     export PATH=$PATH:$ANDROID_HOME/platform-tools
 fi
+if [ -d "$HOME/.npm-global" -a ! -d "$HOME/.nvm" ]; then
+    export NPM_CONFIG_PREFIX=~/.npm-global
+fi
+if [ -f "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # load nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # load nvm bash_completion
+fi
+if [ -f "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
+fi
+if [ -f "/usr/bin/dotnet" ]; then
+    export DOTNET_ROOT=/usr/bin/dotnet
+fi
 
-# plug
+export EMSDK_QUIET=1
+
+# PLUGINS
 if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
     . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
     export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999"
+fi
+if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    # https://github.com/zsh-users/zsh-syntax-highlighting
+    . ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # FUNCTIONS
@@ -75,6 +95,26 @@ function man7() {
 function duckduckgo() {
     lynx "https://lite.duckduckgo.com/lite?q=${*// /+}"
 }
+function kctx() {
+    case "$1" in
+        "")
+            kubectl config get-contexts
+            ;;
+        "use")
+            if [ -z "$2" ]; then
+                echo "Usage: kctx use <context-name>"
+            else
+                kubectl config use-context "$2"
+            fi
+            ;;
+        "current")
+            kubectl config current-context
+            ;;
+        *)
+            echo "Usage: kctx [use <context-name>] [current]"
+            ;;
+    esac
+}
 # ALIASES
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -85,6 +125,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    alias zgrep='zgrep --color=auto'
     alias diff='diff --color=auto'
     alias ip='ip --color=auto'
 
@@ -115,3 +156,15 @@ alias ff='_fastfind'
 
 alias '?'='duckduckgo'
 alias 'history'='history 0'
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
+alias ........="cd ../../../../../../.."
+alias .........="cd ../../../../../../../.."
+alias ..........="cd ../../../../../../../../.."
+
+alias k='kubectl'
