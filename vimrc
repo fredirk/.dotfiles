@@ -40,3 +40,10 @@ augroup TmuxWindowName
   autocmd BufReadPost * call UpdateTmuxWindowTitle()
   autocmd VimLeave * call ResetTmuxWindowTitle()
 augroup END
+
+function! RunTigAndRedraw()
+    silent !tig
+    redraw!
+endfunction
+
+nnoremap <Space>g :call RunTigAndRedraw()<CR>
