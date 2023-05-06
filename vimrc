@@ -22,3 +22,21 @@ autocmd FileType asm set noexpandtab shiftwidth=8 softtabstop=0 syntax=nasm
 
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
+function! UpdateTmuxWindowTitle()
+  let l:filename = expand('%:t')
+  if l:filename != ''
+    let l:tmux_cmd = 'tmux rename-window ' . shellescape(l:filename)
+    call system(l:tmux_cmd)
+  endif
+endfunction
+
+function! ResetTmuxWindowTitle()
+  let l:tmux_cmd = 'tmux setw -q automatic-rename on'
+  call system(l:tmux_cmd)
+endfunction
+
+augroup TmuxWindowName
+  autocmd!
+  autocmd BufReadPost * call UpdateTmuxWindowTitle()
+  autocmd VimLeave * call ResetTmuxWindowTitle()
+augroup END
