@@ -42,6 +42,9 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 bindkey -v
 export KEYTIMEOUT=1
 
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$PATH:$HOME/.local/bin"
+fi
 if [ -d "$HOME/Android/Sdk" ]; then
     export ANDROID_HOME=$HOME/Android/Sdk
     export PATH=$PATH:$ANDROID_HOME/emulator
@@ -50,19 +53,23 @@ fi
 if [ -d "$HOME/.npm-global" -a ! -d "$HOME/.nvm" ]; then
     export NPM_CONFIG_PREFIX=~/.npm-global
 fi
-if [ -f "$HOME/.nvm" ]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # load nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # load nvm bash_completion
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 if [ -f "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
 fi
 if [ -f "/usr/bin/dotnet" ]; then
     export DOTNET_ROOT=/usr/bin/dotnet
 fi
+export PICO_SDK_PATH=$HOME/src/pico/pico-sdk
+export PICO_EXAMPLES_PATH=$HOME/src/pico/pico-examples
+export PICO_EXTRAS_PATH=$HOME/src/pico/pico-extras
+export PICO_PLAYGROUND_PATH=$HOME/src/pico/pico-playground
 
 export EMSDK_QUIET=1
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
 
 # PLUGINS
 if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
@@ -138,7 +145,6 @@ if [ -x /usr/bin/dircolors ]; then
     export LESS_TERMCAP_ue=$'\E[0m'
 fi
 
-alias python='python3'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'

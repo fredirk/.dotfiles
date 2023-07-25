@@ -3,6 +3,9 @@
 
 source $VIMRUNTIME/defaults.vim
 
+call plug#begin()
+call plug#end()
+
 set number
 
 " searching
