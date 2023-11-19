@@ -6,6 +6,7 @@ source $VIMRUNTIME/defaults.vim
 " curl https://raw.githubusercontent.com/AlessandroYorba/Alduin/master/colors/alduin.vim -o $HOME/.vim/colors
 colorscheme alduin
 
+" plugin
 call plug#begin()
 call plug#end()
 
@@ -14,6 +15,8 @@ call netrw_gitignore#Hide()
 let g:netrw_liststyle = 3
 
 " sets
+"" General
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 "" lines
 set number
 set relativenumber
@@ -26,12 +29,21 @@ set incsearch
 filetype on
 filetype plugin on
 filetype indent on
+
+" autocmd
+"" file type
 autocmd FileType c,cpp,java,cs set formatoptions+=ro
 autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 autocmd FileType asm set noexpandtab shiftwidth=8 softtabstop=0 syntax=nasm
-
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+autocmd FileType yaml,yml set fdm=indent
+"" tmux
+augroup TmuxWindowName
+  autocmd!
+  autocmd BufReadPost * call UpdateTmuxWindowTitle()
+  autocmd TabEnter * call UpdateTmuxWindowTitle()
+  autocmd VimLeave * call ResetTmuxWindowTitle()
+augroup END
 
 " Keymap
 "" General
@@ -53,29 +65,32 @@ nnoremap <silent> <Tab>k :tablast<CR>
 nnoremap <silent> <Tab>s :tab split<CR>
 nnoremap <Tab>/ :tabfind<space>
 "" Git
-nnoremap <Leader>g :call RunTigAndRedraw()<CR>
+nnoremap <Leader>gs :call RunTigAndRedraw()<CR>
+"" Shell
+nnoremap <Leader>$p :call PutShell()<CR>
 
-function! UpdateTmuxWindowTitle()
+" Functions
+"" Shell
+function PutShell()
+    let l:sys = split(system(input("$: ")), "\n")
+    call append(line('.'), l:sys)
+endfunction
+"" Tmux
+function UpdateTmuxWindowTitle()
   let l:filename = expand('%:t')
   if l:filename != ''
     let l:tmux_cmd = 'tmux rename-window ' . shellescape(l:filename)
     call system(l:tmux_cmd)
   endif
 endfunction
-
-function! ResetTmuxWindowTitle()
+function ResetTmuxWindowTitle()
   let l:tmux_cmd = 'tmux setw -q automatic-rename on'
   call system(l:tmux_cmd)
 endfunction
-
-augroup TmuxWindowName
-  autocmd!
-  autocmd BufReadPost * call UpdateTmuxWindowTitle()
-  autocmd VimLeave * call ResetTmuxWindowTitle()
-augroup END
-
-function! RunTigAndRedraw()
+"" Tig
+function RunTigAndRedraw()
     silent !tig
     redraw!
 endfunction
+
 
