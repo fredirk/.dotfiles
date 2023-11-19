@@ -74,9 +74,10 @@ nnoremap <silent> <Tab>k :tablast<CR>
 nnoremap <silent> <Tab>s :tab split<CR>
 nnoremap <Tab>f :tabnew<CR>:Files<CR>
 "" Git
+nnoremap <Leader>gg :Git<CR>
 nnoremap <Leader>gb :Git blame<CR>
 nnoremap <Leader>gd :Git diff<CR>
-nnoremap <Leader>gs :call RunTigAndRedraw()<CR>
+nnoremap <Leader>gt :call RunTigAndRedraw()<CR>
 "" Shell
 nnoremap <Leader>$p :call PutShell()<CR>
 "" Fuzzy
