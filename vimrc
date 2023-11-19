@@ -3,11 +3,15 @@
 
 source $VIMRUNTIME/defaults.vim
 
-" curl https://raw.githubusercontent.com/AlessandroYorba/Alduin/master/colors/alduin.vim -o $HOME/.vim/colors
+" https://github.com/AlessandroYorba/Alduin/
 colorscheme alduin
 
 " plugin
+" https://github.com/junegunn/vim-plug
 call plug#begin()
+"" https://github.com/junegunn/fzf.vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " netrw
@@ -63,11 +67,16 @@ nnoremap <silent> <Tab>l gt
 nnoremap <silent> <Tab>j :tabfirst<CR>
 nnoremap <silent> <Tab>k :tablast<CR>
 nnoremap <silent> <Tab>s :tab split<CR>
-nnoremap <Tab>/ :tabfind<space>
+nnoremap <Tab>f :tabnew<CR>:Files<CR>
 "" Git
 nnoremap <Leader>gs :call RunTigAndRedraw()<CR>
+nnoremap <Leader>gd :!git difftool<CR>
 "" Shell
 nnoremap <Leader>$p :call PutShell()<CR>
+"" Fuzzy
+nnoremap <Leader>/ :Lines<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>fgs :GFiles?<CR>
 
 " Functions
 "" Shell
@@ -92,5 +101,3 @@ function RunTigAndRedraw()
     silent !tig
     redraw!
 endfunction
-
-
