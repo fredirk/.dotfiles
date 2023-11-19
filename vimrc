@@ -12,6 +12,8 @@ call plug#begin()
 "" https://github.com/junegunn/fzf.vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+"" https://github.com/tpope/vim-fugitive
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " netrw
@@ -28,6 +30,9 @@ set scrolloff=5
 "" searching
 set hlsearch
 set incsearch
+"" statusline
+set laststatus=2
+set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 
 " filetype detection
 filetype on
@@ -69,8 +74,9 @@ nnoremap <silent> <Tab>k :tablast<CR>
 nnoremap <silent> <Tab>s :tab split<CR>
 nnoremap <Tab>f :tabnew<CR>:Files<CR>
 "" Git
+nnoremap <Leader>gb :Git blame<CR>
+nnoremap <Leader>gd :Git diff<CR>
 nnoremap <Leader>gs :call RunTigAndRedraw()<CR>
-nnoremap <Leader>gd :!git difftool<CR>
 "" Shell
 nnoremap <Leader>$p :call PutShell()<CR>
 "" Fuzzy
