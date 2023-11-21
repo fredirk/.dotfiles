@@ -14,6 +14,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 "" https://github.com/tpope/vim-fugitive
 Plug 'tpope/vim-fugitive'
+"" https://github.com/prabirshrestha/vim-lsp
+Plug 'prabirshrestha/vim-lsp'
+"" https://github.com/mattn/vim-lsp-settings
+Plug 'mattn/vim-lsp-settings'
 call plug#end()
 
 " netrw
@@ -86,6 +90,14 @@ nnoremap <Leader>/ :Lines<CR>
 nnoremap <Leader>ff :Files<CR>
 nnoremap <Leader>ft :Rg<CR>
 nnoremap <Leader>fgs :GFiles?<CR>
+"" Lsp
+nnoremap gd :tab split<CR>:LspDefinition<CR>
+nnoremap gD :LspDefinition<CR>
+nnoremap <Leader>ld :LspDefinition<CR>
+nnoremap <Leader>lf :LspPeekDefinition<CR>
+nnoremap <Leader>ls :LspPeekDeclaration<CR>
+nnoremap <Leader>l/ :LspReferences<CR>
+nnoremap <Leader>lr :LspRename<CR>
 
 " Functions
 "" Shell
